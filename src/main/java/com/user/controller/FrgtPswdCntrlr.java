@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -22,13 +23,15 @@ public class FrgtPswdCntrlr {
 
 	@GetMapping(value = AppConstants.FRGTPSWD_PAGE)
 	public String loadFrgtPswdFrm() {
-		return "frgtPswd";
+		return AppConstants.VIEW_FRGTPSWD;
 	}
-	
-	//@GetMapping(value = AppConstants.FRGT_PSWD)
+
+	@PostMapping(value = AppConstants.FRGT_PSWD)
 	public String handleFrgtPswdSubmtBtn(HttpServletRequest req, Model model) {
-		model.addAttribute("UsrAccMdl", new UserAccountModel());
-		return "";
+		String email = req.getParameter("email");
+		String succMsg = userSrvc.rcvryPswd(email);
+		model.addAttribute(AppConstants.VIEW_SUCC_MSG,succMsg);
+		return AppConstants.VIEW_FRGTPSWD;
 	}
 
 }

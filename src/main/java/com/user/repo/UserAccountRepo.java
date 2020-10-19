@@ -10,5 +10,6 @@ import com.user.entity.UserAccountEntity;
 public interface UserAccountRepo extends JpaRepository<UserAccountEntity, Serializable> {
 	
 	public UserAccountEntity findByEmail(String email);
+	public UserAccountEntity findByEmailAndPswd(String email,String pswd);
 
 }

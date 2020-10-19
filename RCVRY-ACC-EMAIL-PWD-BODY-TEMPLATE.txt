@@ -1,0 +1,12 @@
+Hi  {FNAME}, {LNAME} :
+<br/>
+
+
+Please check your password below details to unlock your account.<br/>
+<br/>
+
+Password : {PWD}<br/>
+
+
+Thanks & Regards,<br/>
+Ashok IT.<br/>

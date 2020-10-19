@@ -28,7 +28,7 @@ public interface UserSrvc {
 	
     public boolean sendRegSuccEmail(String to,String subject,String body);
     
-    public String isTempPswdValid(String tempPswd);
+    public boolean isTempPswdValid(String email,String pswd);
     
     public boolean unlockAcc(String email,String pswd);
     
@@ -36,7 +36,7 @@ public interface UserSrvc {
     
     public String getRcvryPswdEmailBody(UserAccountModel usrMdl);
     
-    public String sendPswdToEmail(String pswd , String subject,String body);
+    public boolean sendPswdToEmail(String pswd , String subject,String body);
     
     
     

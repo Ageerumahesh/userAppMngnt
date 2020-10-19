@@ -29,8 +29,7 @@ public class UserRegCntrlr {
 	public String loadRegForm(Model model) {
 		model.addAttribute("UsrAccMdl", new UserAccountModel());
 		model.addAttribute("countries",userSrvc.loadCntryData());
-		
-		return "regUsr";
+		return AppConstants.VIEW_REGUSR;
 	}
 	
 	//onchange on email we have chek email uniqueness
@@ -64,10 +63,7 @@ public class UserRegCntrlr {
 		}else {
 			model.addAttribute("failMsg",AppConstants.SAVE_FAIL);
 		}
-		
-		
-		
-		return "regUsr";
+		return AppConstants.VIEW_REGUSR;
 	}
 	
 

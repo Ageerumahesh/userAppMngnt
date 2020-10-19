@@ -23,6 +23,7 @@ import com.user.repo.CityMasterRepo;
 import com.user.repo.CntryMasterRepo;
 import com.user.repo.StateMasterRepo;
 import com.user.repo.UserAccountRepo;
+import com.user.res.AppConstants;
 import com.user.util.EmailUtils;
 
 @Service
@@ -45,14 +46,19 @@ public class UserSrvcImpl implements UserSrvc {
 
 	@Override
 	public String loginCheck(String email, String pswd) {
-		// TODO Auto-generated method stub
-		return null;
+		UserAccountEntity userEntitly = userAccRepo.findByEmailAndPswd(email, pswd);
+		if (userEntitly == null) {
+			return "InvalidCredentials";
+		} else if (userEntitly.getAccStatus().equals("locked")) {
+			return "locked";
+		}
+		return "success";
 	}
 
 	@Override
 	public boolean isUnique(String email) {
-		UserAccountEntity userEntitly = userAccRepo.findByEmail(email);
-		return userEntitly != null ? true : false;
+		UserAccountEntity userEntity = userAccRepo.findByEmail(email);
+		return userEntity != null ? true : false;
 	}
 
 	@Override
@@ -105,7 +111,7 @@ public class UserSrvcImpl implements UserSrvc {
 	@Override
 	public String getSuccMailBody(UserAccountModel usrMdl) {
 		String fileName = "UNLOCK-ACC-EMAIL-BODY-TEMPLATE.txt";
-		Path path = Paths.get(fileName,"");
+		Path path = Paths.get(fileName, "");
 		String body = null;
 		try {
 			Stream<String> lines = Files.lines(path);
@@ -126,33 +132,56 @@ public class UserSrvcImpl implements UserSrvc {
 	}
 
 	@Override
-	public String isTempPswdValid(String tempPswd) {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean isTempPswdValid(String email, String pswd) {
+		UserAccountEntity userEntity = userAccRepo.findByEmailAndPswd(email, pswd);
+		return userEntity != null ? true : false;
 	}
 
 	@Override
 	public boolean unlockAcc(String email, String pswd) {
-		// TODO Auto-generated method stub
-		return false;
+		UserAccountEntity userAccEntity = userAccRepo.findByEmail(email);
+		userAccEntity.setAccStatus("unlocked");
+		userAccEntity.setPswd(pswd);
+		userAccRepo.save(userAccEntity);
+		return true;
 	}
 
 	@Override
 	public String rcvryPswd(String email) {
-		// TODO Auto-generated method stub
-		return null;
+		UserAccountEntity userEntity = userAccRepo.findByEmail(email);
+		if (userEntity == null) {
+			return AppConstants.RCVRY_EMAIL_INVALID;
+		}
+		String to = email;
+		String subject = "Recovery Password email";
+		UserAccountModel usrMdl = new UserAccountModel();
+		BeanUtils.copyProperties(userEntity, usrMdl);
+		String body = getRcvryPswdEmailBody(usrMdl);
+		boolean isEmail = sendPswdToEmail(to, subject, body);
+		return isEmail ? AppConstants.RCVRY_SUCC_MSG : AppConstants.RCVRY_FAIL_MSG;
 	}
 
 	@Override
 	public String getRcvryPswdEmailBody(UserAccountModel usrMdl) {
-		// TODO Auto-generated method stub
-		return null;
+		String fileName = "RCVRY-ACC-EMAIL-PWD-BODY-TEMPLATE.txt";
+		Path path = Paths.get(fileName, "");
+		String body = null;
+		try {
+			Stream<String> lines = Files.lines(path);
+			List<String> replaced = lines.map(line -> line.replace("{FNAME}", usrMdl.getFrstNm())
+					.replace("{LNAME}", usrMdl.getLstNm()).replace("{PWD}", usrMdl.getPswd()))
+					.collect(Collectors.toList());
+			body = String.join("", replaced);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return body;
 	}
 
 	@Override
-	public String sendPswdToEmail(String pswd, String subject, String body) {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean sendPswdToEmail(String to, String subject, String body) {
+		emailUtils.sendEmail(to, subject, body);
+		return true;
 	}
 
 	@Override

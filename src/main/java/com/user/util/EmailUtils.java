@@ -4,14 +4,16 @@ package com.user.util;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
+@Configuration
 @Component
 public class EmailUtils {
 	
-    @Autowired
+    @Autowired(required=false)
 	private JavaMailSender mailSender;
 	
 	public boolean sendEmail(String to,String subject,String body) {
