@@ -1,8 +1,6 @@
 Hi  {FNAME}, {LNAME} :
 <br/>
-
-
-Please check your password below details to unlock your account.<br/>
+Please check your password below . <br/>
 <br/>
 
 Password : {PWD}<br/>

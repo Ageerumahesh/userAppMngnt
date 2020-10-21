@@ -62,7 +62,7 @@
 	<div align="center">
 		<h3>Registration Page</h3>
 		<font color='red'>${failMsg}</font><font color='red'>${succMsg}</font>
-		<form:form action="saveUsr" modelAttribute="UsrAccMdl" method="POST">
+		<form:form action="saveUsr" modelAttribute="usrAccMdl" method="POST">
 			<table>
 				<tr>
 					<td>First Name::</td>
@@ -99,7 +99,7 @@
 
 				<tr>
 					<td>Select country</td>
-					<td><form:select path="cntryD" id="cntryId">
+					<td><form:select path="cntryID" id="cntryId">
 							<form:option value="">-select-</form:option>
 							<form:options items="${countries}"></form:options>
 						</form:select></td>
@@ -107,13 +107,13 @@
 
 				<tr>
 					<td>Select State</td>
-					<td><form:select path="stateD" id="stateId">
+					<td><form:select path="stateID" id="stateId">
 							<form:option value="">-select-</form:option>
 						</form:select></td>
 				</tr>
 				<tr>
 					<td>Select city</td>
-					<td><form:select path="cityD" id="cityId">
+					<td><form:select path="cityID" id="cityId">
 							<form:option value="">-select-</form:option>
 						</form:select></td>
 				</tr>

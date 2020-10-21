@@ -8,7 +8,7 @@ Plese use below details to unlock your account.<br/>
 Temporary Password : {TEMP-PWD}<br/>
 <br/>
 
-<a href='http://localhost:9191/unlockAcc?email={EMAIL}'>
+<a href='http://localhost:9191/loadUnLockAcc?email={EMAIL}'>
 
 Click Here To Unlock Your Account</a> <br/>
 <br/>

@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class StateModel {
-	
+
 	private String stateId;
-	private int CntryD;
+	private Integer cntryID;
 	private String stateNm;
 
 }

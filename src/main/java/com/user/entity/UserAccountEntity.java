@@ -8,52 +8,49 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
 import lombok.Data;
 
-@Data 
+@Data
 @Entity
-@Table(name = "UserAccount") 
+@Table(name = "UserAccount")
 public class UserAccountEntity {
 
-@Id
-@Column(name = "tciUsrId") 
-@GeneratedValue
-private Integer userId;
+	@Id
+	@Column(name = "tciUsrId")
+	@GeneratedValue
+	private Integer userId;
 
-@Column(name = "tcsUsrAccStatus") 
-private String accStatus;
+	@Column(name = "tcsUsrAccStatus")
+	private String accStatus;
 
-@Column(name = "tcsUsrFrstNm") 
-private String frstNm;
+	@Column(name = "tcsUsrFrstNm")
+	private String frstNm;
 
-@Column(name = "tcsUsrLstNm") 
-private String lstNm;
+	@Column(name = "tcsUsrLstNm")
+	private String lstNm;
 
-@Column(name = "tcsUsrPswd") 
-private String pswd;
+	@Column(name = "tcsUsrPswd")
+	private String pswd;
 
-@Column(name = "tcsUsrEmail",unique=true) 
-private String email;
+	@Column(name = "tcsUsrEmail", unique = true)
+	private String email;
 
-@Column(name = "tcsUsrNum") 
-private String num;
+	@Column(name = "tcsUsrNum")
+	private String num;
 
-@Column(name = "tcsUsrDob") 
-private LocalDate dob;
+	@Column(name = "tcsUsrDob")
+	private String dob;
 
+	@Column(name = "tcsUsrGndr")
+	private Character gndr;
 
+	@Column(name = "tciUsrCntryID")
+	private int cntryID;
 
-@Column(name = "tcsUsrId") 
-private Character gndr;
+	@Column(name = "tciUsrStateID")
+	private int stateID;
 
-@Column(name = "tciUsrCntryD") 
-private int cntryD;
-
-@Column(name = "tcsUsrStateD") 
-private int stateD;
-@Column(name = "tcsUsrCityD") 
-private int cityD;
-
+	@Column(name = "tciUsrCityID")
+	private int cityID;
 
 }

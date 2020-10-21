@@ -9,6 +9,6 @@ import com.user.entity.StateMasterEntity;
 
 public interface StateMasterRepo  extends JpaRepository<StateMasterEntity, Serializable>{
 	
-	public List<StateMasterEntity> findByCntryD(Integer cntyId);
+	public List<StateMasterEntity> findByCntryID(Integer cntyId);
 
 }

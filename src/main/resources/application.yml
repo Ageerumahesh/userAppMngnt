@@ -3,9 +3,9 @@ server:
 spring:
   datasource:
     username: sa
-    password: 3is
+    password: null
     url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver   
+    driver-class-name: org.h2.Driver
   jpa:
     properties:
       hibernate:
@@ -17,15 +17,11 @@ spring:
     view:
       prefix: /views/
       suffix: .jsp
-mail:
-    host: smtp.gmail.com
-    port: 587
-    username: (write your email)
-    password: (pswd)
-    properties:
-      mail:
-        smtp:
-          starttls:
-            enable: true
-          auth: true
-          
+app:
+  messages:
+    INVALID_MSG: PLEASE , GIVE CORRECT CREDENTIALS
+    LOCKED_MSG: YOUR ACCUNT IS LOCKED
+    UNLOCK_SUCC_MSG: ACCOUNT UNLOCKED SUCESSFULLY <a href="/">loginHere</a>
+    UNLOCK_FAIL_MSG: PLEASE , GIVE CORRECT TEMP PASSWORD
+    SAVE_MSG: YOUR REGISTRATION IS ALMOST COMPLETED. PLESE CHECK YOUR EMAIL TO UNLOCK YOUR ACCOUNT
+    SAVE_FAIL: USER FAILED REGISTRATION

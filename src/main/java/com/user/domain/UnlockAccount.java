@@ -5,9 +5,9 @@ import lombok.Data;
 @Data
 public class UnlockAccount {
 
-	private  String email;
-	private  String temPswd;
-	private  String pswd;
-	private  String cnfrmPswd;
-	
+	private String email;
+	private String temPswd;
+	private String pswd;
+	private String cnfrmPswd;
+
 }

@@ -48,11 +48,11 @@ public class UserSrvcImpl implements UserSrvc {
 	public String loginCheck(String email, String pswd) {
 		UserAccountEntity userEntitly = userAccRepo.findByEmailAndPswd(email, pswd);
 		if (userEntitly == null) {
-			return "InvalidCredentials";
-		} else if (userEntitly.getAccStatus().equals("locked")) {
-			return "locked";
+			return AppConstants.INVALID;
+		} else if (userEntitly.getAccStatus().equals(AppConstants.LOCKED)) {
+			return AppConstants.LOCKED;
 		}
-		return "success";
+		return AppConstants.SUCCESS;
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class UserSrvcImpl implements UserSrvc {
 
 	@Override
 	public Map<Integer, String> loadStateByCntryId(Integer cntryId) {
-		List<StateMasterEntity> statesEntityList = stateRepo.findByCntryD(cntryId);
+		List<StateMasterEntity> statesEntityList = stateRepo.findByCntryID(cntryId);
 		Map<Integer, String> statesMap = new HashMap<Integer, String>();
 		statesEntityList.forEach(entity -> {
 			statesMap.put(entity.getStateId(), entity.getStateNm());
@@ -83,7 +83,7 @@ public class UserSrvcImpl implements UserSrvc {
 
 	@Override
 	public Map<Integer, String> loadCityByStateId(Integer stateId) {
-		List<CityMasterEntity> citiesEntityList = cityRepo.findByStateD(stateId);
+		List<CityMasterEntity> citiesEntityList = cityRepo.findByStateID(stateId);
 		Map<Integer, String> citiesMap = new HashMap<Integer, String>();
 		citiesEntityList.forEach(entity -> {
 			citiesMap.put(entity.getCityId(), entity.getCityNm());
@@ -93,16 +93,14 @@ public class UserSrvcImpl implements UserSrvc {
 
 	@Override
 	public boolean saveUserAccount(UserAccountModel usrMdl) {
-		usrMdl.setAccStatus("Locked");
+		usrMdl.setAccStatus(AppConstants.LOCKED);
 		usrMdl.setPswd(generateTempPswd());
-		usrMdl.setStateD(1);
-		usrMdl.setCityD(1);
 		UserAccountEntity userAccEntity = new UserAccountEntity();
 		BeanUtils.copyProperties(usrMdl, userAccEntity);
 		UserAccountEntity resUserEntity = userAccRepo.save(userAccEntity);
 
 		String to = resUserEntity.getEmail();
-		String subject = "Unlock Account|AshokIt";
+		String subject = AppConstants.EMAIL_SUBJECT;
 		String body = getSuccMailBody(usrMdl);
 		boolean isEmailSend = sendRegSuccEmail(to, subject, body);
 		return isEmailSend;
@@ -110,15 +108,15 @@ public class UserSrvcImpl implements UserSrvc {
 
 	@Override
 	public String getSuccMailBody(UserAccountModel usrMdl) {
-		String fileName = "UNLOCK-ACC-EMAIL-BODY-TEMPLATE.txt";
+		String fileName = AppConstants.EMAIL_TMPLT_FILENAME;
 		Path path = Paths.get(fileName, "");
 		String body = null;
 		try {
 			Stream<String> lines = Files.lines(path);
-			List<String> replaced = lines
-					.map(line -> line.replace("{FNAME}", usrMdl.getFrstNm()).replace("{LNAME}", usrMdl.getLstNm())
-							.replace("{TEMP-PWD}", usrMdl.getPswd()).replace("{EMAIL}", usrMdl.getEmail()))
-					.collect(Collectors.toList());
+			List<String> replaced = lines.map(line -> line.replace(AppConstants.RPLSMNT_VAR_FN, usrMdl.getFrstNm())
+					.replace(AppConstants.RPLSMNT_VAR_LN, usrMdl.getLstNm())
+					.replace(AppConstants.RPLSMNT_VAR_TEMP_PSWD, usrMdl.getPswd())
+					.replace(AppConstants.RPLSMNT_VAR_EMAIL, usrMdl.getEmail())).collect(Collectors.toList());
 			body = String.join("", replaced);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -140,7 +138,7 @@ public class UserSrvcImpl implements UserSrvc {
 	@Override
 	public boolean unlockAcc(String email, String pswd) {
 		UserAccountEntity userAccEntity = userAccRepo.findByEmail(email);
-		userAccEntity.setAccStatus("unlocked");
+		userAccEntity.setAccStatus(AppConstants.UNLOCKED);
 		userAccEntity.setPswd(pswd);
 		userAccRepo.save(userAccEntity);
 		return true;
@@ -153,7 +151,7 @@ public class UserSrvcImpl implements UserSrvc {
 			return AppConstants.RCVRY_EMAIL_INVALID;
 		}
 		String to = email;
-		String subject = "Recovery Password email";
+		String subject = AppConstants.REVRY_EMAIL_SUBJECT;
 		UserAccountModel usrMdl = new UserAccountModel();
 		BeanUtils.copyProperties(userEntity, usrMdl);
 		String body = getRcvryPswdEmailBody(usrMdl);
@@ -163,13 +161,16 @@ public class UserSrvcImpl implements UserSrvc {
 
 	@Override
 	public String getRcvryPswdEmailBody(UserAccountModel usrMdl) {
-		String fileName = "RCVRY-ACC-EMAIL-PWD-BODY-TEMPLATE.txt";
+		String fileName = AppConstants.EMAIL_REVRY_FILENAME;
 		Path path = Paths.get(fileName, "");
 		String body = null;
+		Stream<String> lines = null;
+		List<String> replaced = null;
 		try {
-			Stream<String> lines = Files.lines(path);
-			List<String> replaced = lines.map(line -> line.replace("{FNAME}", usrMdl.getFrstNm())
-					.replace("{LNAME}", usrMdl.getLstNm()).replace("{PWD}", usrMdl.getPswd()))
+			lines = Files.lines(path);
+			replaced = lines.map(line -> line.replace(AppConstants.RPLSMNT_VAR_FN, usrMdl.getFrstNm())
+					.replace(AppConstants.RPLSMNT_VAR_LN, usrMdl.getLstNm())
+					.replace(AppConstants.RPLSMNT_VAR_PSWD, usrMdl.getPswd()))
 					.collect(Collectors.toList());
 			body = String.join("", replaced);
 		} catch (IOException e) {
@@ -187,7 +188,8 @@ public class UserSrvcImpl implements UserSrvc {
 	@Override
 	public String generateTempPswd() {
 		// chose a Character random from this String
-		String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "0123456789" + "abcdefghijklmnopqrstuvxyz";
+		String AlphaNumericString = AppConstants.ALPHBT_UPPRCS + AppConstants.TEMP_INTEGERS
+				+ AppConstants.ALPHBT_UPPRCS;
 
 		// create StringBuffer size of AlphaNumericString
 		StringBuilder sb = new StringBuilder(6);

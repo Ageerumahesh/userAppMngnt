@@ -11,7 +11,7 @@
 	<div align="center">
 	<h3>unlock  accunt</h3>
 	<font color='red'>${failMsg}</font> <font color='green'>${succMsg}</font>
-		<form:form action="unLockAcc?email=${unlockAcc.email} " modelAttribute="unlockAcc" method="POST">
+		<form:form action="unLockAcc?email=${unlockAcc.email}" modelAttribute="unlockAcc" method="POST">
 			<table>
 			<tr>
 			<td>Email Id:</td>

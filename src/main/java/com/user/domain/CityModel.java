@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class CityModel {
 
-	private int cityId;
+	private Integer cityId;
 	private String cityNm;
-	private int stateD;
+	private Integer stateID;
 }

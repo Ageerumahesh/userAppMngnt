@@ -12,16 +12,17 @@
 <body>
 	<div align="center">
 	<h3>sign in</h3>
-		<form action="loginUsr" method="post">
+	  <font color='red'>${invalid}</font><font color='red'>${locked}</font>
+		<form action="loginUsr" method="POST">
 			<table>
 				<tr>
 					<td>Email   :</td>
-					<td><input type="text" id="email" /></td>
+					<td><input type="text" id="email" name="email"/></td>
 				</tr>
 				
 				<tr>
 					<td>password  :</td>
-					<td><input type="password" id="pswd" /></td>
+					<td><input type="password" id="pswd" name="pswd"/></td>
 				</tr>
 				
 				<tr>

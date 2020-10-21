@@ -6,12 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-import com.user.domain.UserAccountModel;
 import com.user.res.AppConstants;
 import com.user.service.UserSrvc;
 
@@ -28,9 +23,7 @@ public class FrgtPswdCntrlr {
 
 	@PostMapping(value = AppConstants.FRGT_PSWD)
 	public String handleFrgtPswdSubmtBtn(HttpServletRequest req, Model model) {
-		String email = req.getParameter("email");
-		String succMsg = userSrvc.rcvryPswd(email);
-		model.addAttribute(AppConstants.VIEW_SUCC_MSG,succMsg);
+		model.addAttribute(AppConstants.VIEW_SUCC_MSG, userSrvc.rcvryPswd(req.getParameter(AppConstants.EMAIL)));
 		return AppConstants.VIEW_FRGTPSWD;
 	}
 

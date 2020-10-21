@@ -13,18 +13,15 @@ import lombok.Data;
 @Table(name = "COUNTRY_MASTER")
 public class CntryMasterEntity {
 
+	@Id
+	@GeneratedValue
+	@Column(name = "tciCntryId")
+	private Integer cntryId;
 
+	@Column(name = "tcsCntryCode")
+	private String cntryCode;
 
-@Id
-@GeneratedValue
-@Column(name = "tciCntryId") 
-private Integer cntryId;
-
-@Column(name = "tcsCntryCode") 
-private String cntryCode;
-
-@Column(name = "tcsCntryNm") 
-private String cntryNm;
-
+	@Column(name = "tcsCntryNm")
+	private String cntryNm;
 
 }

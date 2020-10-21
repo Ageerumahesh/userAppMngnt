@@ -5,8 +5,8 @@ import lombok.Data;
 @Data
 public class CntryModel {
 
-	private int cntryId;
+	private Integer cntryId;
 	private String cntyCode;
-	private String CntryNm;
+	private String cntryNm;
 
 }

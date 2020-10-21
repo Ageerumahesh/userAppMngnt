@@ -8,6 +8,6 @@
 </head>
 <body>
 <h1>work is going on</h1>
-<a href="login">logout</a>
+<a href="/">logout</a>
 </body>
 </html>

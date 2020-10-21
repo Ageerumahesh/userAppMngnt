@@ -10,6 +10,6 @@ import com.user.entity.StateMasterEntity;
 
 public interface CityMasterRepo   extends JpaRepository<CityMasterEntity, Serializable>{
 	
-	public List<CityMasterEntity> findByStateD(Integer stateId);
+	public List<CityMasterEntity> findByStateID(Integer stateId);
 
 }

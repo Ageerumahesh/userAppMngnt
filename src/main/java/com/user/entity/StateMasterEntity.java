@@ -6,31 +6,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter.Indenter;
-
 import lombok.Data;
-
 
 @Data
 @Entity
 @Table(name = "STATES_MASTER")
 public class StateMasterEntity {
 
+	@Id
+	@GeneratedValue
+	@Column(name = "tciStateId")
+	private Integer stateId;
 
-@Id
-@GeneratedValue
-@Column(name = "tciStateId")
-private Integer stateId;
+	@Column(name = "tciCntryID")
+	private Integer cntryID;
 
-
-@Column(name = "tciCntryD")
-private Integer cntryD;
-
-
-
-@Column(name = "tcsStateNm")
-private String stateNm;
-
-
+	@Column(name = "tcsStateNm")
+	private String stateNm;
 
 }
